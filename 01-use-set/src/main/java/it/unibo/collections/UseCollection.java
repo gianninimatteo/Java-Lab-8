@@ -21,10 +21,10 @@ public final class UseCollection {
      */
     public static void main(final String[] args) {
         /*
-         * Unless you need to perform specific operations, always use the most
-         * generic interface.
-         * If we use `var` instead of specifying Collection<Integer> what type
-         * will `coll` have?
+         * A meno che non sia necessario eseguire operazioni specifiche, utilizzare sempre l'interfaccia più
+         * generica.
+         * Se utilizziamo `var` invece di specificare Collection<Integer>, quale tipo
+         * avrà `coll`?
          */
         final Collection<Integer> coll = new ArrayList<>();
         coll.addAll(List.of(1, 3, 5, 7, 9, 11)); // var-args
@@ -34,11 +34,14 @@ public final class UseCollection {
         coll.add(15);
         // Remove an element
         coll.remove(7);
+
+        //Confronta il contenuto di 'coll' con gli elementi che gli passi nel metodo, verificando che siano presenti tutti
         assertContentEqualsInAnyOrder(List.of(1, 3, 5, 9, 11, 13, 15, 15), coll);
         // Remove multiple elements at once
         coll.removeAll(List.of(11, 13, 15));
         assertContentEqualsInAnyOrder(List.of(1, 3, 5, 9), coll);
-        // Preserve only the elements available in the intersection
+        
+        //retainAll() mantiene nella collezione solo gli elementi presenti anche in un'altra collezione
         coll.retainAll(List.of(1, 2, 3, 4, 5));
         assertContentEqualsInAnyOrder(List.of(1, 3, 5), coll);
         assertTrue(coll.contains(3));
