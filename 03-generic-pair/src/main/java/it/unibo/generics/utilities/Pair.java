@@ -3,20 +3,31 @@ package it.unibo.generics.utilities;
 import java.util.Objects;
 
 /**
- * A class used to enclose two objects.
- * 
- * Important note: when creating real projects, it is much, much, much better
- * to rely on widely used libraries than to write tons of boilerplate code
- * yourself (or copy the code we provide you). Good implementations of mutable
- * and immutable pairs are available in Apache Commons Lang, Apache Commons
- * Math, and Jool (joo-lambda by Jooq).
+ * Una classe utilizzata per racchiudere due oggetti.
+ *
+ * Nota importante: quando si realizzano progetti reali, è molto, molto, molto meglio
+ * affidarsi a librerie ampiamente utilizzate piuttosto che scrivere da soli tonnellate di codice boilerplate
+ * (o copiare il codice che vi forniamo). Buone implementazioni di coppie mutabili
+ * e immutabili sono disponibili in Apache Commons Lang, Apache Commons
+ * Math e Jool (joo-lambda di Jooq).
  *
  * @param <X>
  *            type of the first {@link Object}
  * @param <Y>
  *            type of the second {@link Object}
  */
-public final class Pair<X, Y> {
+
+// Questa è la classe più importante per capire il concetto di generici.
+
+public final class Pair<X, Y> { // <X, Y> significa che questa classe può contenere due oggetti di tipo qualsiasi
+    /**
+    * Per esempio:
+    * Pair<String, Integer> coppia = new Pair<>("Matteo", 25);
+    
+    * In questo caso:
+    *  X diventa String.
+    *  Y diventa Integer.
+     */
 
     private final X first;
     private final Y second;
@@ -27,11 +38,13 @@ public final class Pair<X, Y> {
      * @param o2
      *            the second object
      */
-    public Pair(final X o1, final Y o2) {
+    // Costruttore
+    public Pair(final X o1, final Y o2) { //Riceve 2 oggetti: il 1 di tipo X, il secondo di tipo Y. Li assegna agli attributi 'first' e 'second'
         this.first = o1;
         this.second = o2;
     }
 
+    // 2 Metodi get: restituiscono i 2 oggetti mantenendo i rispettivi tipi
     /**
      * @return the first object
      */
@@ -47,9 +60,9 @@ public final class Pair<X, Y> {
     }
 
     /**
-     * Returns a string representation of the pair.
+     * Restituisce una rappresentazione testuale della coppia.
      * 
-     * @return a string representing this pair's state
+     * @return  una stringa che rappresenta lo stato di questa coppia
      */
     @Override
     public String toString() {
@@ -60,27 +73,27 @@ public final class Pair<X, Y> {
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
+    public int hashCode() { //Calcola un codice hash della coppia.
         /*
-         * Library hashing function. Decent, but not particularly good.
-         * However, for performance-critical use cases, a good hashing library and algorithm is
-         * warmly recommended. For instance, Google Guava provides a number of
-         * good and fast hashing algorithms (Murmur 3 is a perfect solution).
+         * Funzione di hashing della libreria. Discreta, ma non particolarmente valida.
+         * Tuttavia, per i casi d’uso in cui le prestazioni sono fondamentali, si consiglia vivamente
+         * di utilizzare una libreria e un algoritmo di hashing validi. Ad esempio, Google Guava offre una serie di
+         * algoritmi di hashing validi e veloci (Murmur 3 è una soluzione perfetta).
          */
         return Objects.hash(first, second);
     }
 
     /**
-     * Compares this pair to the specified object. The result is true if and
-     * only if the argument is not null and is a Pair object containing the same
-     * pair of object.
+     * Confronta questa coppia con l'oggetto specificato. Il risultato è vero se e
+     * solo se l'argomento non è nullo ed è un oggetto Pair contenente la stessa
+     * coppia di oggetti.
      * 
-     * @param other the object to compare this pair against
+     * @param other l'oggetto con cui confrontare questa coppia
      * 
-     * @return true if the given pair is equal to this pair
+     * @return vero se la coppia specificata è uguale a questa coppia
      */
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(final Object other) { // Confronta 2 coppie per verificare se contengono gli stessi elementi.
         return this == other
             || other instanceof final Pair<?, ?> otherPair
             && Objects.equals(first, otherPair.first)
