@@ -1,45 +1,45 @@
-# Exceptions playground
+# Area di prova delle eccezioni
 
-### Check arguments correctness and throw RuntimeExceptions
+### Verifica della correttezza degli argomenti e generazione di RuntimeException
 
-Inside the constructor `ServiceBehindUnstableNetwork(double, int)`,
-add a check that the probability is within 0 (included) and 1 (excluded).
-If the check fails, it must throw an `IllegalArgumentException` with an appropriate message.
+All’interno del costruttore `ServiceBehindUnstableNetwork(double, int)`,
+aggiungi una verifica che la probabilità sia compresa tra 0 (incluso) e 1 (escluso).
+Se la verifica fallisce, deve generare un’`IllegalArgumentException` con un messaggio appropriato.
 
-### Catch existing exceptions
+### Gestire le eccezioni esistenti
 
-Implement the methods `UseArithmeticService.retrySendOnNetworkError`
-and `UseArithmeticService.retryReceiveOnNetworkError`
-as described in the source code.
+Implementare i metodi `UseArithmeticService.retrySendOnNetworkError`
+e `UseArithmeticService.retryReceiveOnNetworkError`
+come descritto nel codice sorgente.
 
-### Design new exceptions
+### Progettare nuove eccezioni
 
-Create a `NetworkException extends IOException` with two constructors.
-The 0-ary constructor must create an Exception whose message is "Network error: no response".
-The 1-ary constructor must take a String as input, and create a message "Network error while sending message: <message>"
+Creare una classe `NetworkException che estende IOException` con due costruttori.
+Il costruttore 0-ario deve creare un’eccezione il cui messaggio sia “Errore di rete: nessuna risposta”.
+Il costruttore 1-ario deve accettare una stringa come input e generare il messaggio “Errore di rete durante l’invio del messaggio: <messaggio>”
 
-Modify `ServiceBehindUnstableNetwork.accessTheNetwork()`
-in such a way that it throws the new Exception.
-Notice that the blocks that used to catch `IOException` still work.
+Modificare `ServiceBehindUnstableNetwork.accessTheNetwork()`
+in modo tale che generi la nuova eccezione.
+Si noti che i blocchi che in precedenza intercettavano `IOException` continuano a funzionare.
 
-### Check the arguments' correctness and preserve the stacktrace on rethrows
+### Verificare la correttezza degli argomenti e preservare lo stack trace in caso di re-lancio
 
-Modify `ServiceBehindUnstableNetwork.sendData` in such a way that,
-instead of printing, throws an IllegalArgumentException with the same message.
+Modificare `ServiceBehindUnstableNetwork.sendData` in modo tale che,
+anziché stampare, generi un’`IllegalArgumentException` con lo stesso messaggio.
 
-**Note:** the newly thrown exception must *preserve* the stacktrace of the original
-`NumberFormatException` (which must be set as exception cause).
+**Nota:** l’eccezione appena generata deve *conservare* lo stack trace della
+`NumberFormatException` originale (che deve essere impostata come causa dell’eccezione).
 
-### Use exceptions to mark exceptional state
+### Utilizzare le eccezioni per segnalare uno stato anomalo
 
-Remove all `println`s from `ArithmeticService`: when the system enters an inconsistent state,
-an `IllegalStateException` with the same message of the print should be thrown.
-Remember to preserve the stacktrace of the cause exceptions if there is any.
+Rimuovere tutti i `println` da `ArithmeticService`: quando il sistema entra in uno stato incoerente,
+deve essere generata un’`IllegalStateException` con lo stesso messaggio della stampa.
+Ricordarsi di preservare lo stack trace delle eccezioni all’origine, se presenti.
 
-### Use `finally` to compute even after the `return`
+### Utilizzare `finally` per eseguire calcoli anche dopo il `return`
 
-Modify `ArithmeticService.process()`:
-no matter what, once the control flow exits the method,
-`commandQueue.clear()` must be executed.
+Modificare `ArithmeticService.process()`:
+in ogni caso, una volta che il flusso di controllo esce dal metodo,
+deve essere eseguito `commandQueue.clear()`.
 
-Suggestion: use `finally` appropriately.
+Suggerimento: utilizzare `finally` in modo appropriato.

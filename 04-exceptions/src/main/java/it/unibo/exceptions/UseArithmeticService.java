@@ -3,6 +3,7 @@ package it.unibo.exceptions;
 import it.unibo.exceptions.fakenetwork.api.NetworkComponent;
 import it.unibo.exceptions.fakenetwork.impl.ServiceBehindUnstableNetwork;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 import static it.unibo.exceptions.arithmetic.ArithmeticService.DIVIDED;
@@ -44,17 +45,39 @@ public final class UseArithmeticService {
 
     private static void retrySendOnNetworkError(final NetworkComponent server, final String message) {
         /*
-         * This method should re-try to send message to the provided server, catching all IOExceptions,
-         * until it succeeds.
+         * Questo metodo dovrebbe riprovare a inviare il messaggio al server specificato, intercettando tutte le eccezioni IOException,
+         * finché l'operazione non va a buon fine.
          */
+        boolean sent = false;
+
+        while (sent == false) { //se 'sent' è false entra nel ciclo
+            try {
+                server.sendData(message); //invia il messaggio
+                sent = true; //se l'invio riesce, imposto 'sent' a true
+            } catch (IOException e) { // IOException: tipo di errore che vuoi intercettare. 'e': variabile che contiene l'eccezione intercettata.
+                //Se incontra un errore semplicemente torna all'inizio del ciclo. 
+                //Esempio di errore: errore di rete.
+            }
+        }
     }
 
     private static String retryReceiveOnNetworkError(final NetworkComponent server) {
         /*
-         * This method should re-try to retrieve information from the provided server, catching all IOExceptions,
-         * until it succeeds.
+         * Questo metodo dovrebbe riprovare a recuperare le informazioni dal server specificato, intercettando tutte le eccezioni IOException,
+         * fino a quando l'operazione non va a buon fine.
          */
-        return null;
+        String recovery = "Informazioni recuperate"; //risposta del server
+        boolean response = false; //risposta inizializzata a false
+
+        while (response == false) { //finchè la variabile è false
+            try {
+                recovery = server.receiveResponse(); //assegno la stringa restituita a recovery
+                response = true; //la risposta è stata ricevuta correttamente.
+            } catch (IOException e) { // IOException: tipo di errore che vuoi intercettare. 'e': variabile che contiene l'eccezione intercettata.
+                //Uguale al metodo sopra
+            }
+        }
+        return recovery; //restituisce la risposta
     }
 
     private static void assertEqualsAsDouble(final String expected, final String actual) {
